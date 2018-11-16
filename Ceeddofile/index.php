@@ -15,7 +15,7 @@ try {
   $mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
   $mail->SMTPAuth = true;                               // Enable SMTP authentication
   $mail->Username = 'babslegrands.bs@gmail.com';                 // SMTP username
-  $mail->Password = 'mot de passe enlever ;)';                           // SMTP password
+  $mail->Password = 'babacar93';                           // SMTP password
   $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
   $mail->Port = 465;                                    // TCP port to connect to
 
@@ -47,6 +47,24 @@ echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
   <head>
     <meta charset="utf-8">
     <title>Ceeddofile</title>
+    <style>
+        #drop_zone {
+            background-color: #3451; 
+            border: #999 1px dashed;
+            width: 300px; 
+            height: 200px;
+            padding: 8px;
+            font-size: 18px;
+            transition:2s;
+        }
+
+         #drop_zone:hover
+         {
+          background-color: #EEE; 
+         }
+
+
+        </style>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
     
@@ -58,19 +76,48 @@ echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
 
    
     <div id="div6" class="col-sm-8">
-      
-         
+    <br><br><br>
+    <div id="drop_zone" ondrop="drag_drop(event)" ondragover="return false">
              <form action="index.php" method="post" enctype="multipart/form-data">
            <center>
              <div class="upload-btn-wrapper"> 
-               <label>Ajouter un fichier</label>
+             <br>
                <br>  
              <button class="btn" style="color:#3498db;font-size:28px;border-radius:25px;"><i class="fas fa-cloud-upload-alt"></i></button>
                  <input type="file" name="file" id="file">
                  
               </div>
           </center>
+          </div>
+
+
+                <script>
+              
+              function drag_drop(event) 
+              
+              {
+              
+                event.preventDefault();
+         
+               alert(event.dataTransfer.files[0].name);
+               
+
+              var file = event.dataTransfer.files[0];
+              // alert(file.name+" | "+file.size+" | "+file.type);
+              var formdata = new FormData();
+              formdata.append("file1", file);
+              var ajax = new XMLHttpRequest();
+              ajax.open("POST", "file_upload_parser.php");
+              ajax.send(formdata); 
+                    
+              
+                }
+
+                </script>
+
+
               <br>
+
 
           <label for="envoiemail" class="col-sm-3 control-label">Votre email</label> 
            <div class="col-sm-3">
@@ -114,12 +161,13 @@ echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
 <!-- upload -->
    <?php
    
-            if (isset($_POST['upload'])){
+            if (isset($_POST['upload']))
+            {
            
               
              
     $fichier = ($_FILES['file']['name']);
-    $taille_max = 297152;
+    $taille_max = 31000000;
     $taille = filesize($_FILES['file']['tmp_name']);
      $ext = pathinfo($fichier, PATHINFO_EXTENSION);
     $filename = uniqid(rand(), true) .'.'.$ext;
